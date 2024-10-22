@@ -4,159 +4,217 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MundoAuto - Información de la Empresa</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/lucide@latest"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
-        
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
         body {
-            font-family: 'Roboto', sans-serif;
-            color: #333;
+            font-family: 'Inter', sans-serif;
         }
-        .lazy-image {
-            transition: opacity 0.3s ease-in-out;
+
+        .aspect-w-16 {
+            position: relative;
+            padding-bottom: 56.25%;
         }
-        .lazy-image.loaded {
-            opacity: 1;
+
+        .aspect-w-16 > * {
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
         }
     </style>
 </head>
-<body class="bg-gray-100">
-    <header class="bg-blue-600 text-white py-4">
+<body class="bg-gray-100 min-h-screen font-sans text-gray-800">
+    <header class="bg-blue-600 text-white py-6">
         <div class="container mx-auto px-4">
-            <h1 class="text-3xl font-bold">MundoAuto</h1>
-            <p class="text-xl">Información de la Empresa</p>
+            <h1 class="text-4xl font-bold">MundoAuto</h1>
+            <p class="text-xl mt-2">Información de la Empresa</p>
         </div>
     </header>
 
-    <nav class="bg-blue-500 text-white py-2 sticky top-0 z-10">
-        <div class="container mx-auto px-4">
-            <ul class="flex space-x-4">
-                <li><a href="#informacion-general" class="hover:underline">Información General</a></li>
-                <li><a href="#servicios" class="hover:underline">Servicios</a></li>
-                <li><a href="#galeria" class="hover:underline">Galería</a></li>
-                <li><a href="#cobertura" class="hover:underline">Cobertura</a></li>
-                <li><a href="#contacto" class="hover:underline">Contacto</a></li>
+    <nav class="bg-blue-500 text-white py-4 sticky top-0 z-10">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <button id="menuToggle" class="md:hidden">
+                <i data-lucide="menu"></i>
+            </button>
+            <ul id="navMenu" class="hidden md:flex md:space-x-6">
+                <li><a href="#informacion-general" class="block py-2 hover:text-blue-200 transition-colors">Información General</a></li>
+                <li><a href="#servicios" class="block py-2 hover:text-blue-200 transition-colors">Servicios</a></li>
+                <li><a href="#galeria" class="block py-2 hover:text-blue-200 transition-colors">Galería</a></li>
+                <li><a href="#cobertura" class="block py-2 hover:text-blue-200 transition-colors">Cobertura</a></li>
+                <li><a href="#contacto" class="block py-2 hover:text-blue-200 transition-colors">Contacto</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container mx-auto px-4 py-8">
-        <section id="informacion-general" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Información General</h2>
-            <ul class="list-disc list-inside">
-                <li><strong>Nombre de la empresa:</strong> MundoAuto</li>
-                <li><strong>CUIT:</strong> 30-71234681-3</li>
-                <li><strong>Año de fundación:</strong> 2011</li>
-                <li><strong>Tipo de negocio:</strong> Concesionario de automóviles</li>
-                <li><strong>Ubicación principal:</strong> Av. Colón 4516, Córdoba, Argentina</li>
-            </ul>
+        <section id="informacion-general" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Información General</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <ul class="space-y-2">
+                    <li><strong>Nombre de la empresa:</strong> MundoAuto</li>
+                    <li><strong>CUIT:</strong> 30-71234681-3</li>
+                    <li><strong>Año de fundación:</strong> 2011</li>
+                    <li><strong>Tipo de negocio:</strong> Concesionario de automóviles</li>
+                    <li><strong>Ubicación principal:</strong> Av. Colón 4516, Córdoba, Argentina</li>
+                </ul>
+            </div>
         </section>
 
-        <section id="servicios" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Servicios</h2>
-            <ul class="list-disc list-inside">
-                <li>Venta de vehículos nuevos y usados</li>
-                <li>Servicio de traslado a domicilio</li>
-                <li>Entregas en todo el territorio argentino</li>
-                <li>Taller mecánico propio</li>
-                <li>Servicio de estética vehicular</li>
-                <li>Financiamiento y opciones de pago</li>
-            </ul>
-        </section>
-
-        <section id="galeria" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Galería</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                <div class="aspect-w-16 aspect-h-9">
-                    <img class="lazy-image opacity-0 object-cover w-full h-full rounded" data-src="agencia.jpg" alt="Auto 1" loading="lazy">
+        <section id="servicios" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Servicios</h2>
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <p class="text-lg"><i data-lucide="car" class="inline mr-2"></i>Venta de vehículos nuevos y usados</p>
                 </div>
-                <div class="aspect-w-16 aspect-h-9">
-                    <img class="lazy-image opacity-0 object-cover w-full h-full rounded" data-src="image.jpg" alt="Concesionario" loading="lazy">
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <p class="text-lg"><i data-lucide="truck" class="inline mr-2"></i>Servicio de traslado a domicilio</p>
                 </div>
-                <div class="aspect-w-16 aspect-h-9">
-                    <img class="lazy-image opacity-0 object-cover w-full h-full rounded" data-src="image (1).jpg" alt="Taller mecánico" loading="lazy">
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <p class="text-lg"><i data-lucide="map" class="inline mr-2"></i>Entregas en todo el territorio argentino</p>
+                </div>
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <p class="text-lg"><i data-lucide="tool" class="inline mr-2"></i>Taller mecánico propio</p>
+                </div>
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <p class="text-lg"><i data-lucide="spray-can" class="inline mr-2"></i>Servicio de estética vehicular</p>
+                </div>
+                <div class="bg-white shadow-md rounded-lg p-6">
+                    <p class="text-lg"><i data-lucide="credit-card" class="inline mr-2"></i>Financiamiento y opciones de pago</p>
                 </div>
             </div>
         </section>
 
-        <section id="video" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Video Informativo</h2>
+        <section id="galeria" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Galería</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="https://source.unsplash.com/random/800x600?car" alt="Auto 1" class="object-cover w-full h-full rounded-lg shadow-md" loading="lazy">
+                </div>
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="https://source.unsplash.com/random/800x600?dealership" alt="Concesionario" class="object-cover w-full h-full rounded-lg shadow-md" loading="lazy">
+                </div>
+                <div class="aspect-w-16 aspect-h-9">
+                    <img src="https://source.unsplash.com/random/800x600?mechanic" alt="Taller mecánico" class="object-cover w-full h-full rounded-lg shadow-md" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <section id="video" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Video Informativo</h2>
             <div class="aspect-w-16 aspect-h-9">
-                <iframe class="w-full h-full" src="agencia (1).mp4" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+                <iframe class="w-full h-full rounded-lg shadow-md" src="https://www.youtube.com/embed/dQw4w9WgXcQ" title="Video informativo de MundoAuto" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
             </div>
         </section>
 
-        <section id="cobertura" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Cobertura de Entrega</h2>
-            <p class="mb-4">Realizamos entregas en las siguientes provincias:</p>
-            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 list-disc list-inside">
-                <li>Buenos Aires</li>
-                <li>Santa Fe</li>
-                <li>La Pampa</li>
-                <li>San Luis</li>
-                <li>Entre Ríos</li>
-                <li>Chaco</li>
-                <li>Santiago del Estero</li>
-                <li>Salta</li>
-                <li>Catamarca</li>
-                <li>San Juan</li>
-                <li>Mendoza</li>
-                <li>Neuquén</li>
-                <li>Corrientes</li>
-                <li>Córdoba</li>
-            </ul>
+        <section id="cobertura" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Cobertura de Entrega</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <p class="mb-4 text-lg">Realizamos entregas en las siguientes provincias:</p>
+                <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Buenos Aires</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Santa Fe</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>La Pampa</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>San Luis</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Entre Ríos</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Chaco</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Santiago del Estero</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Salta</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Catamarca</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>San Juan</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Mendoza</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Neuquén</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Corrientes</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-blue-500 rounded-full mr-2"></span>Córdoba</li>
+                </ul>
+            </div>
         </section>
 
-        <section id="contacto" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Información de Contacto</h2>
-            <ul class="list-disc list-inside">
-                <li><strong>Dirección:</strong> Av. Colón 4516, Córdoba, Argentina</li>
-                <li><strong>Teléfono:</strong> +54 (351) 123-4567</li>
-                <li><strong>Horario de atención:</strong> Lunes a Viernes de 9:00 a 18:00, Sábados de 9:00 a 13:00</li>
-            </ul>
+        <section id="contacto" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Información de Contacto</h2>
+            <div class="bg-white shadow-md rounded-lg p-6">
+                <ul class="space-y-4">
+                    <li class="flex items-center">
+                        <i data-lucide="map-pin" class="mr-2 text-blue-500"></i>
+                        <span><strong>Dirección:</strong> Av. Colón 4516, Córdoba, Argentina</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i data-lucide="phone" class="mr-2 text-blue-500"></i>
+                        <span><strong>Teléfono:</strong> +54 (351) 123-4567</span>
+                    </li>
+                    <li class="flex items-center">
+                        <i data-lucide="clock" class="mr-2 text-blue-500"></i>
+                        <span><strong>Horario de atención:</strong> Lunes a Viernes de 9:00 a 18:00, Sábados de 9:00 a 13:00</span>
+                    </li>
+                </ul>
+            </div>
         </section>
 
-        <section id="redes-sociales" class="mb-8">
-            <h2 class="text-2xl font-bold mb-4">Redes Sociales</h2>
-            <ul class="list-disc list-inside">
-                <li><strong>Facebook:</strong> <a href="https://www.facebook.com/mundoautocba" class="text-blue-600 hover:underline">mundoautocba</a></li>
-                <li><strong>Instagram:</strong> <a href="https://www.instagram.com/mundoautocba/" class="text-blue-600 hover:underline">@mundoautocba</a></li>
-            </ul>
+        <section id="redes-sociales" class="mb-12">
+            <h2 class="text-3xl font-bold mb-6">Redes Sociales</h2>
+            <div class="flex space-x-4">
+                <a href="https://www.facebook.com/mundoautocba" class="flex items-center text-blue-600 hover:text-blue-800 transition-colors">
+                    <i data-lucide="facebook" class="mr-2"></i>
+                    <span>mundoautocba</span>
+                </a>
+                <a href="https://www.instagram.com/mundoautocba/" class="flex items-center text-pink-600 hover:text-pink-800 transition-colors">
+                    <i data-lucide="instagram" class="mr-2"></i>
+                    <span>@mundoautocba</span>
+                </a>
+            </div>
         </section>
     </main>
 
-    <footer class="bg-gray-200 py-4 mt-8">
+    <footer class="bg-gray-200 py-6 mt-12">
         <div class="container mx-auto px-4 text-center">
             <p>&copy; 2024 MundoAuto. Todos los derechos reservados.</p>
         </div>
     </footer>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            var lazyImages = [].slice.call(document.querySelectorAll("img.lazy-image"));
+        // Inicializar los iconos de Lucide
+        lucide.createIcons();
 
-            if ("IntersectionObserver" in window) {
-                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
-                    entries.forEach(function(entry) {
-                        if (entry.isIntersecting) {
-                            let lazyImage = entry.target;
-                            lazyImage.src = lazyImage.dataset.src;
-                            lazyImage.classList.add("loaded");
-                            lazyImageObserver.unobserve(lazyImage);
-                        }
-                    });
-                });
+        // Funcionalidad del menú móvil
+        const menuToggle = document.getElementById('menuToggle');
+        const navMenu = document.getElementById('navMenu');
 
-                lazyImages.forEach(function(lazyImage) {
-                    lazyImageObserver.observe(lazyImage);
-                });
+        menuToggle.addEventListener('click', () => {
+            navMenu.classList.toggle('hidden');
+            const icon = menuToggle.querySelector('i');
+            if (navMenu.classList.contains('hidden')) {
+                icon.setAttribute('data-lucide', 'menu');
             } else {
-                // Fallback for browsers that don't support IntersectionObserver
-                lazyImages.forEach(function(lazyImage) {
-                    lazyImage.src = lazyImage.dataset.src;
-                    lazyImage.classList.add("loaded");
-                });
+                icon.setAttribute('data-lucide', 'x');
             }
+            lucide.createIcons();
+        });
+
+        // Resaltar sección activa en el menú
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop - 100) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('font-bold');
+                if (link.getAttribute('href').slice(1) === current) {
+                    link.classList.add('font-bold');
+                }
+            });
         });
     </script>
 </body>

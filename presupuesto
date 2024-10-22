@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MundoAuto - Tu Nuevo Vehículo te Espera</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://unpkg.com/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f6f8fd 0%, #f1f4f9 100%);
+      color: #1f2937;
+      min-height: 100vh;
+    }
+
+    .hidden { display: none; }
+
+    .card-hover {
+      transition: all 0.3s ease;
+    }
+
+    .card-hover:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .progress-bar {
+      height: 4px;
+      background: #e2e8f0;
+      border-radius: 2px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+      transition: width 0.3s ease;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%);
+      outline: none;
+      opacity: 0.9;
+      transition: opacity .2s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #3b82f6;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    .form-radio {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border: 2px solid #3b82f6;
+      border-radius: 50%;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    .form-radio:checked {
+      border-color: #3b82f6;
+      background: #3b82f6;
+      position: relative;
+    }
+
+    .form-radio:checked::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: white;
+    }
+
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      padding: 0 0.5rem;
+      color: #6b7280;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: 0;
+      font-size: 0.875rem;
+      color: #3b82f6;
+    }
+
+    #amountToDeliverContainer, #vehicleDetailsContainer {
+      display: none;
+    }
+  </style>
+</head>
+<body class="min-h-screen py-8">
+  <div id="app" class="max-w-5xl mx-auto p-6 space-y-8">
+    <div id="formContainer" class="bg-white shadow-xl rounded-2xl overflow-hidden transform transition-all duration-300" data-aos="fade-up">
+      <div class="bg-gradient-to-r from-blue-600 to-blue-400 p-8 text-white relative overflow-hidden">
+        <div class="relative z-10">
+          <h1 class="text-4xl font-bold mb-4">Tu Nuevo Vehículo te Espera</h1>
+          <p class="text-xl opacity-90">Financiamiento personalizado y sin complicaciones</p>
+        </div>
+        <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full transform translate-x-1/2 -translate-y-1/2"></div>
+      </div>
+
+      <form id="mundoAutoForm" class="p-8 space-y-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="input-group">
+            <input type="text" id="firstName" name="firstName" required placeholder=" ">
+            <label for="firstName">Nombre</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="lastName" name="lastName" required placeholder=" ">
+            <label for="lastName">Apellido</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="province" name="province" required placeholder=" ">
+            <label for="province">Provincia</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="city" name="city" required placeholder=" ">
+            <label for="city">Localidad</label>
+          </div>
+        </div>
+
+        <div class="space-y-4 bg-gray-50 p-6 rounded-xl">
+          <label class="block text-lg font-semibold text-gray-700">Valor de la cuota a abonar</label>
+          <input type="range" id="loanAmount" name="loanAmount" min="50000" max="400000" step="5000" value="50000">
+          <div class="progress-bar">
+            <div id="progressBar" class="progress-bar-fill" style="width: 12.5%"></div>
+          </div>
+          <div id="loanAmountDisplay" class="text-center text-3xl font-bold text-blue-600"></div>
+        </div>
+
+        <div class="space-y-4">
+          <label class="block text-lg font-semibold text-gray-700">Forma de financiamiento</label>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <label class="flex items-center p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+              <input type="radio" name="financing" value="100" checked class="form-radio">
+              <span class="ml-3">Totalmente Financiado</span>
+            </label>
+            <label class="flex items-center p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+              <input type="radio" name="financing" value="delivery" class="form-radio">
+              <span class="ml-3">Con entrega de dinero</span>
+            </label>
+            <label class="flex items-center p-4 bg-gray-50 rounded-xl cursor-pointer hover:bg-gray-100 transition-colors">
+              <input type="radio" name="financing" value="usedVehicle" class="form-radio">
+              <span class="ml-3">Con vehículo usado</span>
+            </label>
+          </div>
+        </div>
+
+        <div id="amountToDeliverContainer" class="space-y-2">
+          <div class="input-group">
+            <input type="number" id="amountToDeliver" name="amountToDeliver" placeholder=" ">
+            <label for="amountToDeliver">Monto a entregar</label>
+          </div>
+        </div>
+
+        <div id="vehicleDetailsContainer" class="space-y-2">
+          <div class="input-group">
+            <input type="text" id="vehicleDetails" name="vehicleDetails" placeholder=" ">
+            <label for="vehicleDetails">Detalles del vehículo</label>
+          </div>
+        </div>
+
+        <button type="submit" id="submitButton" class="w-full bg-blue-600 text-white py-4 px-6 rounded-xl text-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200 transition-all duration-300 transform hover:scale-105">
+          Mostrar Plan de Financiamiento
+        </button>
+      </form>
+    </div>
+
+    <div id="planContainer" class="hidden">
+      <div class="bg-white shadow-xl rounded-2xl overflow-hidden" data-aos="fade-up">
+        <div class="bg-gradient-to-r from-green-500 to-green-400 p-8 text-white">
+          <div id="planGreeting" class="text-center"></div>
+        </div>
+        
+        <div class="p-8">
+          <div id="benefitsContainer" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <!-- Benefits will be dynamically inserted here -->
+          </div>
+          
+          <button id="whatsappButton" class="w-full mt-8 bg-green-500 text-white py-4 px-6 rounded-xl text-lg font-semibold hover:bg-green-600 focus:outline-none focus:ring-4 focus:ring-green-200 transition-all duration-300 transform hover:scale-105 flex items-center justify-center">
+            <svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564c.173.087.289.129.332.202.043.073.043.423-.101.827z"/>
+            </svg>
+            Contactar por WhatsApp
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center text-sm text-gray-500 mt-8">
+      <p class="font-medium">© 2024 MundoAuto. Todos los derechos reservados.</p>
+      <p>CUIT: 30-71234681-3 | Av. Colón 4516, Córdoba, Argentina</p>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.5/dist/sweetalert2.all.min.js"></script>
+
+  <script>
+    // Initialize AOS
+    AOS.init({
+      duration: 800,
+      once: true
+    });
+
+    // Utility function to format currency
+    const formatCurrency = (value) => {
+      return new Intl.NumberFormat('es-AR', { 
+        style: 'currency', 
+        currency: 'ARS',
+        maximumFractionDigits: 0 
+      }).format(value);
+    };
+
+    // DOM elements
+    const form = document.getElementById('mundoAutoForm');
+    const loanAmountInput = document.getElementById('loanAmount');
+    const loanAmountDisplay = document.getElementById('loanAmountDisplay');
+    const progressBar = document.getElementById('progressBar');
+    const financingRadios = document.getElementsByName('financing');
+    const amountToDeliverContainer = document.getElementById('amountToDeliverContainer');
+    const vehicleDetailsContainer = document.getElementById('vehicleDetailsContainer');
+    const submitButton = document.getElementById('submitButton');
+    const formContainer = document.getElementById('formContainer');
+    const planContainer = document.getElementById('planContainer');
+    const planGreeting = document.getElementById('planGreeting');
+    const benefitsContainer = document.getElementById('benefitsContainer');
+    const whatsappButton = document.getElementById('whatsappButton');
+
+    // Update loan amount display and progress bar
+    loanAmountInput.addEventListener('input', () => {
+      const value = parseInt(loanAmountInput.value);
+      const max = parseInt(loanAmountInput.max);
+      const percentage = (value / max) * 100;
+      
+      loanAmountDisplay.textContent = formatCurrency(value);
+      progressBar.style.width = `${percentage}%`;
+      
+      loanAmountDisplay.classList.add('pulse');
+      setTimeout(() => loanAmountDisplay.classList.remove('pulse'), 1000);
+    });
+
+    // Handle financing option changes
+    financingRadios.forEach(radio => {
+      radio.addEventListener('change', () => {
+        amountToDeliverContainer.style.display = 'none';
+        vehicleDetailsContainer.style.display = 'none';
+
+        if (radio.value === 'delivery') {
+          amountToDeliverContainer.style.display = 'block';
+        } else if (radio.value === 'usedVehicle') {
+          vehicleDetailsContainer.style.display = 'block';
+        }
+      });
+    });
+
+    // Form validation and submission
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Validate required fields
+      const requiredFields = form.querySelectorAll('[required]');
+      let isValid = true;
+      
+      requiredFields.forEach(field => {
+        if (!field.value.trim()) {
+          isValid = false;
+          field.classList.add('shake');
+          setTimeout(() => field.classList.remove('shake'), 820);
+        }
+      });
+
+      if (!isValid) {
+        Swal.fire({
+          title: '¡Atención!',
+          text: 'Por favor, completa todos los campos requeridos',
+          icon: 'warning',
+          confirmButtonColor: '#3b82f6'
+        });
+        return;
+      }
+
+      // Show loading state
+      submitButton.disabled = true;
+      submitButton.innerHTML = '<span class="animate-spin inline-block mr-2">↻</span> Procesando...';
+
+      // Simulate API call
+      try {
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        showPlan();
+      } catch (error) {
+        Swal.fire({
+          title: '¡Error!',
+          text: 'Hubo un problema al procesar tu solicitud. Por favor, intenta nuevamente.',
+          icon: 'error',
+          confirmButtonColor: '#3b82f6'
+        });
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Mostrar Plan de Financiamiento';
+      }
+    });
+
+    // Show plan details with enhanced presentation
+    function showPlan() {
+      const formData = new FormData(form);
+      const firstName = formData.get('firstName');
+      const lastName = formData.get('lastName');
+      const loanAmount = formData.get('loanAmount');
+
+      // Calculate benefits
+      const monthlyPayment = parseInt(loanAmount) / 60; // 60 months financing
+      const benefits = [
+        { icon: '🚗', title: 'Entrega Inmediata', description: 'Recibe tu vehículo en menos de 48 horas' },
+        { icon: '💰', title: 'Cuota Accesible', description: `Solo ${formatCurrency(monthlyPayment)} por mes` },
+        { icon: '📝', title: 'Sin Burocracia', description: 'Mínimos requisitos, máxima velocidad' },
+        { icon: '🎁', title: 'Beneficios Exclusivos', description: 'Service y seguro incluidos por 6 meses' }
+      ];
+
+      // Update plan container with new content
+      planGreeting.innerHTML = `
+        <div class="text-3xl font-bold text-blue-600 mb-4">
+          ¡Felicitaciones, ${firstName}! 🎉
+        </div>
+        <div class="text-lg text-gray-600">
+          Tu plan personalizado está listo
+        </div>
+      `;
+
+      // Update benefits section
+      benefitsContainer.innerHTML = benefits.map((benefit, index) => `
+        <div class="benefit-card" data-aos="fade-up" data-aos-delay="${index * 100}">
+          <div class="text-4xl mb-2">${benefit.icon}</div>
+          <h3 class="text-xl font-semibold text-blue-600 mb-2">${benefit.title}</h3>
+          <p class="text-gray-600">${benefit.description}</p>
+        </div>
+      `).join('');
+
+      // Smooth transition
+      formContainer.style.opacity = '0';
+      setTimeout(() => {
+        formContainer.classList.add('hidden');
+        planContainer.classList.remove('hidden');
+        planContainer.setAttribute('data-aos', 'fade-up');
+        AOS.refresh();
+      }, 300);
+
+      // Show success message and redirect to WhatsApp
+      Swal.fire({
+        title: '¡Plan Generado con Éxito!',
+        text: 'Hemos diseñado el plan perfecto para ti',
+        icon: 'success',
+        confirmButtonColor: '#3b82f6'
+      }).then(() => {
+        redirectToWhatsApp();
+      });
+    }
+
+    // Redirect to WhatsApp with form data
+    function redirectToWhatsApp() {
+      const formData = new FormData(form);
+      const firstName = formData.get('firstName');
+      const lastName = formData.get('lastName');
+      const city = formData.get('city');
+      const province = formData.get('province');
+      const loanAmount = formatCurrency(formData.get('loanAmount'));
+      const financing = formData.get('financing');
+      
+      let financingDetails = '';
+      if (financing === 'delivery') {
+        const amountToDeliver = formatCurrency(formData.get('amountToDeliver'));
+        financingDetails = `Tengo para entregar ${amountToDeliver} y cuotas de ${loanAmount}.`;
+      } else if (financing === 'usedVehicle') {
+        const vehicleDetails = formData.get('vehicleDetails');
+        financingDetails = `Tengo para entregar un vehículo usado (${vehicleDetails}) y cuotas de ${loanAmount}.`;
+      } else {
+        financingDetails = `Cuotas de ${loanAmount}.`;
+      }
+
+      const message = `Mi nombre es ${firstName} ${lastName} y soy de ${city}, ${province}. ${financingDetails} Me gustaría recibir más información.`;
+      const encodedMessage = encodeURIComponent(message);
+      window.location.href = `https://wa.me/3518145289?text=${encodedMessage}`;
+    }
+
+    // Initialize loan amount display
+    loanAmountDisplay.textContent = formatCurrency(loanAmountInput.value);
+
+    // Add floating animation to benefits
+    const addFloatingAnimation = () => {
+      const benefits = document.querySelectorAll('.benefit-card');
+      benefits.forEach((benefit, index) => {
+        benefit.style.animationDelay = `${index * 0.2}s`;
+        benefit.classList.add('floating');
+      });
+    };
+
+    // Initialize tooltips and animations
+    document.addEventListener('DOMContentLoaded', () => {
+      addFloatingAnimation();
+    });
+  </script>
+</body>
+</html>

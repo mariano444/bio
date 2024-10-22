@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MundoAuto - Información de la Empresa</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap');
+        
+        body {
+            font-family: 'Roboto', sans-serif;
+            color: #333;
+        }
+        .lazy-image {
+            transition: opacity 0.3s ease-in-out;
+        }
+        .lazy-image.loaded {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <header class="bg-blue-600 text-white py-4">
+        <div class="container mx-auto px-4">
+            <h1 class="text-3xl font-bold">MundoAuto</h1>
+            <p class="text-xl">Información de la Empresa</p>
+        </div>
+    </header>
+
+    <nav class="bg-blue-500 text-white py-2 sticky top-0 z-10">
+        <div class="container mx-auto px-4">
+            <ul class="flex space-x-4">
+                <li><a href="#informacion-general" class="hover:underline">Información General</a></li>
+                <li><a href="#servicios" class="hover:underline">Servicios</a></li>
+                <li><a href="#galeria" class="hover:underline">Galería</a></li>
+                <li><a href="#cobertura" class="hover:underline">Cobertura</a></li>
+                <li><a href="#contacto" class="hover:underline">Contacto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container mx-auto px-4 py-8">
+        <section id="informacion-general" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Información General</h2>
+            <ul class="list-disc list-inside">
+                <li><strong>Nombre de la empresa:</strong> MundoAuto</li>
+                <li><strong>CUIT:</strong> 30-71234681-3</li>
+                <li><strong>Año de fundación:</strong> 2011</li>
+                <li><strong>Tipo de negocio:</strong> Concesionario de automóviles</li>
+                <li><strong>Ubicación principal:</strong> Av. Colón 4516, Córdoba, Argentina</li>
+            </ul>
+        </section>
+
+        <section id="servicios" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Servicios</h2>
+            <ul class="list-disc list-inside">
+                <li>Venta de vehículos nuevos y usados</li>
+                <li>Servicio de traslado a domicilio</li>
+                <li>Entregas en todo el territorio argentino</li>
+                <li>Taller mecánico propio</li>
+                <li>Servicio de estética vehicular</li>
+                <li>Financiamiento y opciones de pago</li>
+            </ul>
+        </section>
+
+        <section id="galeria" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Galería</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                <div class="aspect-w-16 aspect-h-9">
+                    <img class="lazy-image opacity-0 object-cover w-full h-full rounded" data-src="https://source.unsplash.com/300x200?car" alt="Auto 1" loading="lazy">
+                </div>
+                <div class="aspect-w-16 aspect-h-9">
+                    <img class="lazy-image opacity-0 object-cover w-full h-full rounded" data-src="https://source.unsplash.com/300x200?dealership" alt="Concesionario" loading="lazy">
+                </div>
+                <div class="aspect-w-16 aspect-h-9">
+                    <img class="lazy-image opacity-0 object-cover w-full h-full rounded" data-src="https://source.unsplash.com/300x200?mechanic" alt="Taller mecánico" loading="lazy">
+                </div>
+            </div>
+        </section>
+
+        <section id="video" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Video Informativo</h2>
+            <div class="aspect-w-16 aspect-h-9">
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen loading="lazy"></iframe>
+            </div>
+        </section>
+
+        <section id="cobertura" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Cobertura de Entrega</h2>
+            <p class="mb-4">Realizamos entregas en las siguientes provincias:</p>
+            <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 list-disc list-inside">
+                <li>Buenos Aires</li>
+                <li>Santa Fe</li>
+                <li>La Pampa</li>
+                <li>San Luis</li>
+                <li>Entre Ríos</li>
+                <li>Chaco</li>
+                <li>Santiago del Estero</li>
+                <li>Salta</li>
+                <li>Catamarca</li>
+                <li>San Juan</li>
+                <li>Mendoza</li>
+                <li>Neuquén</li>
+                <li>Corrientes</li>
+                <li>Córdoba</li>
+            </ul>
+        </section>
+
+        <section id="contacto" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Información de Contacto</h2>
+            <ul class="list-disc list-inside">
+                <li><strong>Dirección:</strong> Av. Colón 4516, Córdoba, Argentina</li>
+                <li><strong>Teléfono:</strong> +54 (351) 123-4567</li>
+                <li><strong>Horario de atención:</strong> Lunes a Viernes de 9:00 a 18:00, Sábados de 9:00 a 13:00</li>
+            </ul>
+        </section>
+
+        <section id="redes-sociales" class="mb-8">
+            <h2 class="text-2xl font-bold mb-4">Redes Sociales</h2>
+            <ul class="list-disc list-inside">
+                <li><strong>Facebook:</strong> <a href="https://www.facebook.com/mundoautocba" class="text-blue-600 hover:underline">mundoautocba</a></li>
+                <li><strong>Instagram:</strong> <a href="https://www.instagram.com/mundoautocba/" class="text-blue-600 hover:underline">@mundoautocba</a></li>
+            </ul>
+        </section>
+    </main>
+
+    <footer class="bg-gray-200 py-4 mt-8">
+        <div class="container mx-auto px-4 text-center">
+            <p>&copy; 2024 MundoAuto. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            var lazyImages = [].slice.call(document.querySelectorAll("img.lazy-image"));
+
+            if ("IntersectionObserver" in window) {
+                let lazyImageObserver = new IntersectionObserver(function(entries, observer) {
+                    entries.forEach(function(entry) {
+                        if (entry.isIntersecting) {
+                            let lazyImage = entry.target;
+                            lazyImage.src = lazyImage.dataset.src;
+                            lazyImage.classList.add("loaded");
+                            lazyImageObserver.unobserve(lazyImage);
+                        }
+                    });
+                });
+
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImageObserver.observe(lazyImage);
+                });
+            } else {
+                // Fallback for browsers that don't support IntersectionObserver
+                lazyImages.forEach(function(lazyImage) {
+                    lazyImage.src = lazyImage.dataset.src;
+                    lazyImage.classList.add("loaded");
+                });
+            }
+        });
+    </script>
+</body>
+</html>

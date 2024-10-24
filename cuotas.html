@@ -1,0 +1,804 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MundoAuto - Financiamiento de Vehículos</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1d4ed8;
+      --secondary: #4f46e5;
+      --success: #22c55e;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--gray-50), #eff6ff);
+      color: var(--gray-800);
+      min-height: 100vh;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2rem 1rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+      overflow: hidden;
+      margin: 2rem auto;
+    }
+
+    .header {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      padding: 4rem 2rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .header::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url('agencia.jpg');
+      background-size: cover;
+      background-position: center;
+      opacity: 0.1;
+    }
+
+    .header-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-bottom: 2rem;
+    }
+
+    .logo-icon {
+      background: rgba(255, 255, 255, 0.1);
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      backdrop-filter: blur(4px);
+    }
+
+    .form-container {
+      padding: 2rem;
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .form-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+      color: var(--gray-700);
+      font-size: 0.875rem;
+    }
+
+    .input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 0.75rem;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+
+    .input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .slider-container {
+      background: linear-gradient(to bottom right, var(--gray-50), #eff6ff);
+      padding: 2rem;
+      border-radius: 1rem;
+      margin: 2rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .slider {
+      width: 100%;
+      height: 0.5rem;
+      background: var(--gray-200);
+      border-radius: 0.25rem;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 1.5rem;
+      height: 1.5rem;
+      background: white;
+      border: 2px solid var(--primary);
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+
+    .amount-display {
+      text-align: center;
+      margin-top: 1.5rem;
+    }
+
+    .amount {
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+
+    .financing-options {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    @media (min-width: 768px) {
+      .financing-options {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .financing-option {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .financing-option:hover {
+      border-color: var(--primary);
+      background-color: #eff6ff;
+    }
+
+    .financing-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+    }
+
+    .financing-option input[type="radio"]:checked + .option-content {
+      color: var(--primary);
+    }
+
+    .financing-option input[type="radio"]:checked ~ .option-content .option-icon {
+      background: var(--primary);
+      color: white;
+    }
+
+    .option-content {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .option-icon {
+      width: 3rem;
+      height: 3rem;
+      background: var(--gray-100);
+      border-radius: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.75rem;
+      transition: all 0.3s;
+    }
+
+    .trade-in-details {
+      background: var(--gray-50);
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .trade-in-details.active {
+      display: block;
+      animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-1rem);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .comparison-grid {
+      display: grid;
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    @media (min-width: 768px) {
+      .comparison-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .comparison-card {
+      position: relative;
+      padding: 2rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 1rem;
+      transition: all 0.3s;
+    }
+
+    .comparison-card.primary {
+      background: linear-gradient(to bottom right, white, #eff6ff);
+      border-color: #bfdbfe;
+    }
+
+    .comparison-card.primary:hover {
+      border-color: var(--primary);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    }
+
+    .comparison-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .comparison-icon {
+      background: #eff6ff;
+      padding: 0.75rem;
+      border-radius: 0.75rem;
+      color: var(--primary);
+    }
+
+    .comparison-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .price-box {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(4px);
+      padding: 1.5rem;
+      border-radius: 0.75rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .feature-list {
+      list-style: none;
+      margin-bottom: 2rem;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .button {
+      width: 100%;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 0.75rem;
+      font-size: 1.125rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .button.primary {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+    }
+
+    .button.primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.5);
+    }
+
+    .button.secondary {
+      background: var(--gray-600);
+      color: white;
+    }
+
+    .button.secondary:hover {
+      background: var(--gray-700);
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--gray-600);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.5rem;
+      transition: color 0.3s;
+    }
+
+    .back-button:hover {
+      color: var(--gray-900);
+    }
+
+    .footer {
+      text-align: center;
+      color: var(--gray-500);
+      font-size: 0.875rem;
+      margin-top: 2rem;
+    }
+
+    [hidden] {
+      display: none !important;
+    }
+    input[type="range"] {
+      -webkit-appearance: none;
+      width: 100%;
+      height: 10px;
+      border-radius: 5px;
+     /* background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 100%); */
+      outline: none;
+      opacity: 0.9;
+      transition: opacity .2s;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #fff;
+      border: 2px solid #3b82f6;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      transition: all 0.2s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      transform: scale(1.1);
+    }
+    .input-group {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .input-group input {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+
+    .input-group label {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      background: white;
+      padding: 0 0.5rem;
+      color: #6b7280;
+      transition: all 0.3s ease;
+    }
+
+    .input-group input:focus + label,
+    .input-group input:not(:placeholder-shown) + label {
+      top: 0;
+      font-size: 0.875rem;
+      color: #3b82f6;
+    }
+
+    #amountToDeliverContainer, #vehicleDetailsContainer {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <div class="header">
+        <div class="header-content">
+          <div class="logo">
+            <div class="logo-icon">
+              <i data-lucide="car" class="text-white" width="32" height="32"></i>
+            </div>
+            <h1 class="text-3xl font-bold">MundoAuto</h1>
+          </div>
+          <h2 class="text-5xl font-bold mb-6">Tu Nuevo Vehículo<br>te Espera</h2>
+          <p class="text-xl opacity-90">Financiamiento personalizado y sin complicaciones. ¡Obtén tu auto en menos de 48 horas!</p>
+        </div>
+      </div>
+
+      <form id="financingForm" class="form-container">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div class="input-group">
+            <input type="text" id="firstName" name="firstName" required placeholder=" ">
+            <label for="firstName">Nombre</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="lastName" name="lastName" required placeholder=" ">
+            <label for="lastName">Apellido</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="province" name="province" required placeholder=" ">
+            <label for="province">Provincia</label>
+          </div>
+          <div class="input-group">
+            <input type="text" id="city" name="city" required placeholder=" ">
+            <label for="city">Localidad</label>
+          </div>
+        </div>
+
+        <div class="slider-container">
+          <label class="label">¿Cuánto deseas pagar por mes?</label>
+          <input type="range" id="monthlyPayment" class="slider" min="150000" max="900000" step="10000" value="150000">
+          <div class="amount-display">
+            <div id="amountDisplay" class="amount">$150,000</div>
+            <p class="text-sm text-gray-500">Cuota mensual estimada</p>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label class="label">Forma de financiamiento</label>
+          <div class="financing-options">
+            <label class="financing-option" id="option1">
+              <input type="radio" name="financing" value="full" checked>
+              <div class="option-content">
+                <div class="option-icon">
+                  <i data-lucide="wallet" width="24" height="24"></i>
+                </div>
+                <div class="font-semibold">Totalmente Financiado</div>
+                <p class="text-sm text-gray-500">100% financiación disponible</p>
+              </div>
+            </label>
+            <label class="financing-option" id="option2">
+              <input type="radio" name="financing" value="partial">
+              <div class="option-content">
+                <div class="option-icon">
+                  <i data-lucide="credit-card" width="24" height="24"></i>
+                </div>
+                <div class="font-semibold">Con entrega de dinero</div>
+                <p class="text-sm text-gray-500">Combina un pago inicial con cuotas</p>
+              </div>
+            </label>
+            <label class="financing-option" id="option3">
+              <input type="radio" name="financing" value="trade">
+              <div class="option-content">
+                <div class="option-icon">
+                  <i data-lucide="car" width="24" height="24"></i>
+                </div>
+                <div class="font-semibold">Con vehículo usado</div>
+                <p class="text-sm text-gray-500">Usa tu vehículo como parte de pago</p>
+              </div>
+            </label>
+          </div>
+
+          <div id="partialPaymentDetails" class="trade-in-details">
+            <div class="form-group">
+              <label class="label" for="downPayment">Monto de entrega inicial</label>
+              <input type="number" id="downPayment" class="input" placeholder="Ingresa el monto que podrías entregar">
+            </div>
+          </div>
+
+          <div id="tradeInDetails" class="trade-in-details">
+            <div>
+              <div class="form-group">
+                <label class="label" for="carDetails">Detalles</label>
+                <input type="text" id="carDetails" class="input" placeholder="Ingresa el monto que podrías entregar">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="button primary">
+          <i data-lucide="check-circle" width="24" height="24"></i>
+          Ver Opciones de Financiamiento
+        </button>
+      </form>
+
+      <div id="comparisonView" class="form-container" hidden>
+        <div class="flex items-center justify-between mb-8">
+          <h3 class="text-2xl font-bold">Tus Opciones de Financiamiento</h3>
+          <button id="backButton" class="back-button">
+            <i data-lucide="arrow-left"></i>
+            <span>Volver</span>
+          </button>
+        </div>
+
+        <div class="comparison-grid">
+          <div class="comparison-card primary">
+            <div class="absolute top-0 right-0 bg-blue-500 text-white px-4 py-1 rounded-bl-xl rounded-tr-xl text-sm font-medium">
+              Recomendado
+            </div>
+            <div class="comparison-header">
+              <div class="comparison-icon">
+                <i data-lucide="building-2"></i>
+              </div>
+              <h4 class="comparison-title">Financiación por Agencia</h4>
+            </div>
+            <div class="price-box">
+              <div id="agencyPrice" class="price">$150,000</div>
+              <p class="text-gray-600">Cuota fija mensual</p>
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <i data-lucide="check-circle" class="text-success"></i>
+                <span id="requiredPayments">9 cuotas para retirar el vehículo</span>
+              </li>
+              <li class="feature-item">
+                <i data-lucide="check-circle" class="text-success"></i>
+                <span>Solo DNI requerido</span>
+              </li>
+              <li class="feature-item">
+                <i data-lucide="check-circle" class="text-success"></i>
+                <span>Opción de adelantar cuotas</span>
+              </li>
+            </ul>
+            <button id="whatsappButton" class="button primary">
+              <i data-lucide="send" width="20" height="20"></i>
+              Consultar por WhatsApp
+            </button>
+
+            <!-- Premium Plan Banner -->
+            <div class="bg-gradient-to-r from-yellow-50 to-amber-50 border-2 border-yellow-200 rounded-xl p-4" style="margin-top: 4%;">
+              <div class="flex items-center gap-3 mb-2">
+                <div class="bg-yellow-400 text-white p-2 rounded-lg">
+                  <i data-lucide="credit-card" width="20" height="20"></i>
+                </div>
+                <h5 class="font-semibold text-yellow-900">¡Mejora tu Plan!</h5>
+              </div>
+              <p class="text-sm text-yellow-800 mb-3">
+                Aumenta tu cuota a <span id="upgradedAmount">$220,000</span> y accede al siguiente plan
+              </p>
+              <button id="upgradePlanButton" class="w-full bg-gradient-to-r from-yellow-400 to-amber-500 text-white py-2 px-4 rounded-lg font-medium text-sm hover:from-yellow-500 hover:to-amber-600 transition">
+                Mejorar Plan
+              </button>
+            </div>
+          </div>
+
+          <div class="comparison-card">
+            <div class="comparison-header">
+              <div class="comparison-icon" style="background: var(--gray-100); color: var(--gray-600);">
+                <i data-lucide="credit-card"></i>
+              </div>
+              <h4 class="comparison-title">Financiación Bancaria</h4>
+            </div>
+            <div class="price-box">
+              <div class="price" style="color: var(--gray-600);">$400,000+</div>
+              <p class="text-gray-600">Cuota variable</p>
+            </div>
+            <ul class="feature-list">
+              <li class="feature-item">
+                <i data-lucide="alert-circle" class="text-yellow-500"></i>
+                <span>Cuota variable según tasa bancaria</span>
+              </li>
+              <li class="feature-item">
+                <i data-lucide="alert-circle" class="text-yellow-500"></i>
+                <span>50% de entrada para modelos 2015+</span>
+              </li>
+              <li class="feature-item">
+                <i data-lucide="alert-circle" class="text-yellow-500"></i>
+                <span>Requiere recibo de sueldo y garantías</span>
+              </li>
+            </ul>
+            <button class="button secondary">Elegir este plan</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="footer">
+      <p class="font-medium">© 2024 MundoAuto. Todos los derechos reservados.</p>
+      <p>CUIT: 30-71234681-3 | Argentina</p>
+    </footer>
+  </div>
+
+  <script>
+    // Initialize Lucide icons
+    lucide.createIcons();
+
+    // DOM Elements
+    const form = document.getElementById('financingForm');
+    const comparisonView = document.getElementById('comparisonView');
+    const monthlyPayment = document.getElementById('monthlyPayment');
+    const amountDisplay = document.getElementById('amountDisplay');
+    const agencyPrice = document.getElementById('agencyPrice');
+    const requiredPayments = document.getElementById('requiredPayments');
+    const backButton = document.getElementById('backButton');
+    const whatsappButton = document.getElementById('whatsappButton');
+    const partialPaymentDetails = document.getElementById('partialPaymentDetails');
+    const tradeInDetails = document.getElementById('tradeInDetails');
+    const upgradedAmount = document.getElementById('upgradedAmount');
+    const upgradePlanButton = document.getElementById('upgradePlanButton');
+
+    // Format currency
+    const formatCurrency = (value) => {
+      return new Intl.NumberFormat('es-AR', {
+        style: 'currency',
+        currency: 'ARS',
+        maximumFractionDigits: 0
+      }).format(value);
+    };
+
+    // Calculate required payments
+    const getRequiredPayments = (amount) => {
+      if (amount >= 360000) return 5;
+      if (amount >= 220000) return 7;
+      return 9;
+    };
+
+     // Update displays when slider moves
+     monthlyPayment.addEventListener('input', (e) => {
+      const value = parseInt(e.target.value);
+      const nextPlan = getNextPlanAmount(value); // Encuentra el siguiente plan
+
+      amountDisplay.textContent = formatCurrency(value);
+      agencyPrice.textContent = formatCurrency(value);
+      upgradedAmount.textContent = formatCurrency(nextPlan); // Actualiza con el siguiente plan
+      requiredPayments.textContent = `${getRequiredPayments(value)} cuotas para retirar el vehículo`;
+    });
+
+
+    // Handle financing option changes
+    document.querySelectorAll('input[name="financing"]').forEach(radio => {
+      radio.addEventListener('change', (e) => {
+        partialPaymentDetails.classList.toggle('active', e.target.value === 'partial');
+        tradeInDetails.classList.toggle('active', e.target.value === 'trade');
+      });
+    });
+
+    // Form submission
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      form.hidden = true;
+      comparisonView.hidden = false;
+    });
+
+    // Back button
+    backButton.addEventListener('click', () => {
+      form.hidden = false;
+      comparisonView.hidden = true;
+    });
+
+    // Define the payment plans with thresholds
+    const paymentPlans = [220000, 360000]; // Ejemplo de planes
+    
+    // Find the next plan amount
+    const getNextPlanAmount = (currentAmount) => {
+      for (let plan of paymentPlans) {
+        if (plan > currentAmount) {
+          return plan;
+        }
+      }
+      return currentAmount; // Si no hay un plan más alto, regresa el valor actual
+    };
+
+    // Upgrade plan button
+    upgradePlanButton.addEventListener('click', () => {
+      const currentValue = parseInt(monthlyPayment.value);
+      const newValue = getNextPlanAmount(currentValue); // Encuentra el siguiente plan
+      monthlyPayment.value = newValue;
+      monthlyPayment.dispatchEvent(new Event('input'));
+    });
+
+
+    // WhatsApp button
+    whatsappButton.addEventListener('click', () => {
+      const formData = {
+        firstName: document.getElementById('firstName').value,
+        lastName: document.getElementById('lastName').value,
+        city: document.getElementById('city').value,
+        province: document.getElementById('province').value,
+        monthlyPayment: monthlyPayment.value,
+        financing: document.querySelector('input[name="financing"]:checked').value,
+        downPayment: document.getElementById('downPayment')?.value,
+        carDetails: document.getElementById('carDetails')?.value
+      };
+
+      let message = `¡Hola! Mi nombre es ${formData.firstName} ${formData.lastName} y soy de ${formData.city}, ${formData.province}.\n\n`;
+      message += `Me interesa financiar un vehículo con cuotas de ${formatCurrency(parseInt(formData.monthlyPayment))}.\n\n`;
+      
+      switch (formData.financing) {
+        case 'full':
+          message += 'Estoy interesado en financiación completa (100%).';
+          break;
+        case 'partial':
+          message += `Puedo dar un adelanto de ${formData.downPayment ? formatCurrency(Number(formData.downPayment)) : 'a convenir'}.`;
+          break;
+        case 'trade':
+          message += `- Detalles adicionales: ${formData.carDetails}`;
+          break;
+      }
+
+      window.location.href = `https://wa.me/3518145289?text=${encodeURIComponent(message)}`;
+    });
+
+    // Initialize values
+    const currentValue = parseInt(monthlyPayment.value);
+    const nextPlan = getNextPlanAmount(currentValue); // Encuentra el siguiente plan
+
+    amountDisplay.textContent = formatCurrency(currentValue);
+    agencyPrice.textContent = formatCurrency(currentValue);
+    upgradedAmount.textContent = formatCurrency(nextPlan); // Actualiza con el siguiente plan
+    requiredPayments.textContent = `${getRequiredPayments(currentValue)} cuotas para retirar el vehículo`;
+
+  </script>
+</body>
+</html>

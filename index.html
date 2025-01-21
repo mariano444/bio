@@ -3,21 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta property="og:image" content="https://info-empresa.netlify.app/Captura.png">
+    <meta name="description" content="MUNDOAUTO MULTIMARCAS S.A. - Verificación de CUIT y Constancia de Inscripción">
+    <meta property="og:image" content="agencia.jpg">
+    <meta property="og:title" content="MUNDOAUTO MULTIMARCAS S.A. - Verificación y Constancia">
+    <meta property="og:description" content="Verifica tu CUIT y obtén constancias de inscripción con MUNDOAUTO MULTIMARCAS S.A.">
     <title>MUNDOAUTO MULTIMARCAS S.A. - Verificación y Constancia</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <style>
         :root {
-            --primary-color: #0056b3;
-            --secondary-color: #004085;
-            --accent-color: #ffc107;
+            --primary-color: #3a86ff;
+            --secondary-color: #8338ec;
+            --accent-color: #ffbe0b;
             --text-color: #333;
             --bg-color: #f8f9fa;
             --card-bg-color: #ffffff;
-            --success-color: #28a745;
-            --error-color: #dc3545;
-            --info-color: #17a2b8;
+            --success-color: #06d6a0;
+            --error-color: #ef476f;
+            --info-color: #118ab2;
         }
 
         /* Base styles */
@@ -44,7 +48,7 @@
             text-align: center;
             padding: 3rem 2rem;
             margin-bottom: 2rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
             position: relative;
             overflow: hidden;
         }
@@ -70,14 +74,15 @@
         .sticky-header {
             position: sticky;
             top: 0;
-            background-color: rgba(255, 255, 255, 0.9);
-            backdrop-filter: blur(5px);
+            background-color: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 1000;
             padding: 1rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
+            transition: all 0.3s ease;
         }
 
         .sticky-header nav a {
@@ -86,10 +91,22 @@
             margin-left: 1rem;
             font-weight: 600;
             transition: color 0.3s ease;
+            position: relative;
         }
 
-        .sticky-header nav a:hover {
-            color: var(--secondary-color);
+        .sticky-header nav a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -5px;
+            left: 0;
+            background-color: var(--primary-color);
+            transition: width 0.3s ease;
+        }
+
+        .sticky-header nav a:hover::after {
+            width: 100%;
         }
 
         /* Typography */
@@ -105,13 +122,18 @@
             height: 3px;
             background-color: var(--accent-color);
             margin-top: 0.5rem;
+            transition: width 0.3s ease;
+        }
+
+        h1:hover::after, h2:hover::after {
+            width: 100px;
         }
 
         /* Card styles */
         .card {
             background-color: var(--card-bg-color);
             border-radius: 12px;
-            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 10px 30px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
             padding: 2rem;
             margin-bottom: 2rem;
             transition: transform 0.3s ease, box-shadow 0.3s ease;
@@ -131,7 +153,7 @@
 
         .card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            box-shadow: 0 20px 40px -5px rgba(0, 0, 0, 0.2), 0 10px 20px -5px rgba(0, 0, 0, 0.04);
         }
 
         /* Form styles */
@@ -146,7 +168,7 @@
             color: var(--secondary-color);
         }
 
-        input[type="text"], input[type="number"] {
+        input[type="text"], input[type="number"], input[type="email"], input[type="tel"] {
             width: 100%;
             padding: 0.75rem;
             border: 2px solid #e5e7eb;
@@ -155,10 +177,10 @@
             transition: all 0.3s ease;
         }
 
-        input[type="text"]:focus, input[type="number"]:focus {
+        input[type="text"]:focus, input[type="number"]:focus, input[type="email"]:focus, input[type="tel"]:focus {
             outline: none;
             border-color: var(--primary-color);
-            box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.5);
+            box-shadow: 0 0 0 3px rgba(58, 134, 255, 0.3);
         }
 
         button {
@@ -178,7 +200,7 @@
         button:hover {
             background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
             transform: translateY(-2px);
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Result styles */
@@ -198,9 +220,9 @@
             transform: translateY(0);
         }
 
-        .success { background-color: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .error { background-color: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .info { background-color: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .success { background-color: rgba(6, 214, 160, 0.1); color: #06d6a0; border: 1px solid #06d6a0; }
+        .error { background-color: rgba(239, 71, 111, 0.1); color: #ef476f; border: 1px solid #ef476f; }
+        .info { background-color: rgba(17, 138, 178, 0.1); color: #118ab2; border: 1px solid #118ab2; }
 
         /* Company info styles */
         .company-info {
@@ -375,7 +397,7 @@
 
         /* Security features styles */
         .security-features {
-            background-color: #e6f3ff;
+            background-color: rgba(58, 134, 255, 0.05);
             border-left: 4px solid var(--primary-color);
             padding: 1.5rem;
             margin-top: 2rem;
@@ -563,14 +585,177 @@
                 left: 0%;
             }
         }
+
+        /* New styles for promo banner and modal */
+        .promo-banner {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .promo-banner h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .promo-banner p {
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .countdown {
+            font-size: 1.2rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .promo-button {
+            background-color: var(--accent-color);
+            color: var(--text-color);
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        .promo-button:hover {
+            background-color: #ffd23f;
+            transform: translateY(-2px);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.4);
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background-color: var(--card-bg-color);
+            margin: 15% auto;
+            padding: 2rem;
+            border: 1px solid #888;
+            width: 90%;
+            max-width: 500px;
+            border-radius: 10px;
+            position: relative;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        #couponForm {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        #couponForm input {
+            padding: 0.75rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+
+        #couponForm button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 0.75rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.3s ease;
+        }
+
+        #couponForm button:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
+        .loading-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+        }
+
+        .spinner {
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-indicator p {
+            color: white;
+            margin-top: 1rem;
+        }
     </style>
 </head>
 <body>
+    <div style="background-color: #ffff00; padding: 10px; text-align: center; font-weight: bold;">
+        Nota: Todos los datos han sido verificados a través de páginas oficiales del gobierno y están actualizados.
+    </div>
     <div id="loading-screen" class="loading-screen">
         <div class="loader"></div>
     </div>
-    <!--button class="toggle-theme" onclick="toggleTheme()" aria-label="Cambiar tema">🌓</button-->
     <div id="notification" role="alert"></div>
+    <div id="loadingIndicator" class="loading-indicator" style="display: none;">
+        <div class="spinner"></div>
+        <p>Generando su cupón...</p>
+    </div>
 
     <header>
         <h1>MUNDOAUTO MULTIMARCAS S.A.</h1>
@@ -582,10 +767,15 @@
         <nav>
             <a href="#info">Información</a>
             <a href="#company">Datos Empresa</a>
-            <!--a href="#timeline">Historia</a>
-            <a href="#faq">Preguntas Frecuentes</a-->
         </nav>
     </div>
+    
+    <!--div class="promo-banner">
+        <h3 id="promoTitle"></h3>
+        <p id="promoDescription"></p>
+        <div class="countdown" id="countdown"></div>
+        <button class="promo-button" id="aprovecharpromobtn">Aprovechar la promo</button>
+    </div-->
 
     <div class="container">
         <div class="photo-container">
@@ -595,8 +785,6 @@
         <div class="tabs no-print" role="tablist">
             <div class="tab active" role="tab" aria-selected="true" data-tab="info">Información</div>
             <div class="tab" role="tab" aria-selected="false" data-tab="company">Datos Empresa</div>
-            <!--div class="tab" role="tab" aria-selected="false" data-tab="timeline">Historia</div>
-            <div class="tab" role="tab" aria-selected="false" data-tab="faq">Preguntas Frecuentes</div-->
         </div>
 
         <div id="info" class="tab-content active" role="tabpanel">
@@ -618,10 +806,9 @@
                     <label for="cuit-input">Ingrese el CUIT:</label>
                     <div style="display: flex; align-items: center;">
                         <input type="text" id="cuit-input" placeholder="30712346813" required value="30712346813">
-                        CUIT DE MUNDOAUTO: 30712346813.
-                    </div>
                         <button class="copy-button" onclick="copyCUIT()" aria-label="Copiar CUIT">Copiar</button>
                         <button class="paste-button" onclick="pasteCUIT()" aria-label="Pegar CUIT">Pegar</button>
+                    </div>
                 </div>
                 <button onclick="verifyCUIT()">Verificar CUIT</button>
                 <div id="cuit-result" class="result" role="status"></div>
@@ -647,6 +834,64 @@
                 <div class="security-feature">
                     <span class="security-icon"><i class="fas fa-calendar-check"></i></span>
                     <p>Actualización diaria de la información fiscal</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Consejos para Comprar un Vehículo Usado</h2>
+                <div class="tip-box">
+                    <h3><i class="fas fa-lightbulb"></i> Tip #1: Investigación Previa</h3>
+                    <!--p>Antes de visitar nuestra agencia, investiga el modelo que te interesa. Conoce su valor de mercado, problemas comunes y costos de mantenimiento.</p-->
+                </div>
+                <div class="tip-box">
+                    <h3><i class="fas fa-car"></i> Tip #2: Inspección Detallada</h3>
+                    <!--p>Aprovecha nuestro servicio de inspección gratuita. Nuestros mecánicos certificados realizarán una revisión completa del vehículo antes de tu compra.</p-->
+                </div>
+                <div class="tip-box">
+                    <h3><i class="fas fa-file-contract"></i> Tip #3: Revisa la Documentación</h3>
+                    <!--p>Verifica toda la documentación del vehículo. En MUNDOAUTO, garantizamos que todos nuestros vehículos están libres de gravámenes y con su documentación en regla.</p-->
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>¿Por qué Elegir MUNDOAUTO MULTIMARCAS S.A.?</h2>
+                <div class="features-grid">
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-tools"></i></div>
+                        <h3>Taller Mecánico Propio</h3>
+                        <p>Contamos con un taller mecánico equipado con la última tecnología para garantizar el mejor servicio post-venta.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-car-alt"></i></div>
+                        <h3>Estética de Vehículos</h3>
+                        <p>Nuestro equipo de profesionales se encarga de que cada vehículo luzca impecable antes de su entrega.</p>
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-exchange-alt"></i></div>
+                        <h3>Transferencia Incluida</h3>
+                        <p>Nos encargamos de todo el proceso de transferencia, sin costos adicionales para ti.</p>                    
+                    </div>
+                    <div class="feature-item">
+                        <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                        <h3>Garantía Extendida</h3>
+                        <p>Ofrecemos garantía extendida en todos nuestros vehículos para tu tranquilidad.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Datos Curiosos de MUNDOAUTO</h2>
+                <div class="fact-box">
+                    <h3><i class="fas fa-trophy"></i> Líderes en el Mercado</h3>
+                    <p>Más de <span id="satisfied-customers">0</span> clientes satisfechos desde nuestra fundación en 2012.</p>
+                </div>
+                <div class="fact-box">
+                    <h3><i class="fas fa-recycle"></i> Compromiso</h3>
+                    <!--p>Nuestro taller mecánico utiliza prácticas eco-amigables, reciclando el 95% de los materiales utilizados en nuestras operaciones.</p-->
+                </div>
+                <div class="fact-box">
+                    <h3><i class="fas fa-handshake"></i> Responsabilidad</h3>
+                    <!--p>¿Sabías que puedes ganar hasta $50,000 por referir a un amigo que compre un vehículo con nosotros? ¡Pregunta por nuestro programa de referidos!</p-->
                 </div>
             </div>
 
@@ -731,95 +976,72 @@
                     <p id="vigencia">Vigencia: Cargando...</p>
                     <p>Verificador: 106732690966</p>
                 </div>
-                <!--button onclick="printCompanyInfo()" class="no-print">Imprimir Información de la Empresa</button-->
             </div>
 
-              <h2>Historia de la Empresa</h2>
-              <div class="timeline">
-                  <div class="timeline-item">
-                      <div class="timeline-content">
-                          <h3>2012</h3>
-                          <p>Fundación de MUNDOAUTO MULTIMARCAS S.A.</p>
-                      </div>
-                  </div>
-                  <div class="timeline-item">
-                      <div class="timeline-content">
-                          <h3>2013</h3>
-                          <p>Inicio de actividades de venta de autos usados</p>
-                      </div>
-                  </div>
-                  <div class="timeline-item">
-                      <div class="timeline-content">
-                          <h3>2017</h3>
-                          <p>Expansión a la venta de motocicletas y accesorios</p>
-                      </div>
-                  </div>
-                  <div class="timeline-item">
-                      <div class="timeline-content">
-                          <h3>2022</h3>
-                          <p>Registro en el régimen general de IIBB en Córdoba</p>
-                      </div>
-                  </div>
-              </div>
+            <div class="card">
+                <h2>Nuestro Compromiso con la Calidad</h2>
+                <div class="info-box">
+                    <h3><i class="fas fa-check-circle"></i> Certificación de Calidad</h3>
+                    <!--p>MUNDOAUTO MULTIMARCAS S.A. cuenta con la certificación ISO 9001:2015, garantizando los más altos estándares de calidad en todos nuestros procesos.</p-->
+                </div>
+                <div class="info-box">
+                    <h3><i class="fas fa-user-shield"></i> Protección al Consumidor</h3>
+                    <!--p>Somos miembros activos de la Cámara del Comercio Automotor, asegurando prácticas comerciales éticas y transparentes.</p-->
+                </div>
+                <div class="info-box">
+                    <h3><i class="fas fa-hand-holding-usd"></i> Financiación Personalizada</h3>
+                    <!--p>Ofrecemos planes de financiación adaptados a tus necesidades, con tasas preferenciales y plazos flexibles.</p-->
+                </div>
+            </div>
 
-        </div>
-
-
-        <div id="faq" class="tab-content" role="tabpanel">
-            <h2>Preguntas Frecuentes</h2>
-            <div class="faq-section">
-                <div class="faq-item">
-                    <div class="faq-question">¿Qué es un CUIT?</div>
-                    <div class="faq-answer">
-                        El CUIT (Código Único de Identificación Tributaria) es un número que identifica de manera única a las personas físicas o jurídicas ante la AFIP (Administración Federal de Ingresos Públicos) en Argentina.
+            <h2>Historia de la Empresa</h2>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2012</h3>
+                        <p>Fundación de MUNDOAUTO MULTIMARCAS S.A.</p>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Cómo puedo verificar un CUIT?</div>
-                    <div class="faq-answer">
-                        Puede verificar un CUIT utilizando nuestro verificador en línea en la sección de "Verificación". También puede consultar directamente en el sitio web de la AFIP.
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2013</h3>
+                        <p>Inicio de actividades de venta de autos usados</p>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Qué información puedo obtener con un CUIT?</div>
-                    <div class="faq-answer">
-                        Con un CUIT, puede obtener información sobre la razón social, domicilio fiscal, actividades económicas, impuestos registrados y más detalles sobre una empresa o persona física inscrita en la AFIP.
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2017</h3>
+                        <p>Expansión a la venta de motocicletas y accesorios</p>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">¿Cada cuánto se actualiza la información del CUIT?</div>
-                    <div class="faq-answer">
-                        La información asociada a un CUIT se actualiza diariamente en la base de datos de la AFIP. Sin embargo, es responsabilidad del contribuyente mantener su información actualizada.
+                <div class="timeline-item">
+                    <div class="timeline-content">
+                        <h3>2022</h3>
+                        <p>Registro en el régimen general de IIBB en Córdoba</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-    <!--div class="floating-button no-print" onclick="toggleChatWidget()" aria-label="Abrir chat">
-        <i class="fas fa-comments"></i>
-    </div>
-
-    <div id="chat-widget" class="no-print" role="dialog" aria-labelledby="chat-header">
-        <div id="chat-header">
-            <h3>Asistente Virtual</h3>
-            <button onclick="toggleChatWidget()" aria-label="Cerrar chat">×</button>
-        </div>
-        <div id="chat-messages" role="log"></div>
-        <div id="chat-input">
-            <input type="text" id="user-message" placeholder="Escribe tu mensaje..." aria-label="Mensaje" onkeypress="if(event.key === 'Enter') sendMessage()">
-            <button onclick="sendMessage()">Enviar</button>
-        </div>
-        <div id="chat-suggestions">
-            <button onclick="selectSuggestion(this)">¿Cómo verifico un CUIT?</button>
-            <button onclick="selectSuggestion(this)">Información sobre MUNDOAUTO</button>
-            <button onclick="selectSuggestion(this)">Horario de atención</button>
-        </div>
-    </div-->
 
     <button id="back-to-top" class="back-to-top no-print" aria-label="Volver arriba">
         <i class="fas fa-chevron-up"></i>
     </button>
+
+    <div id="couponModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Obtén tu cupón de descuento</h2>
+            <form id="couponForm">
+                <input type="text" id="name" placeholder="Nombre completo" required>
+                <input type="text" id="name" placeholder="Apellido" required>
+                <input type="text" id="name" placeholder="" required>
+                <input type="email" id="email" placeholder="Correo electrónico" required>
+                <input type="tel" id="phone" placeholder="Teléfono" required>
+                <button type="submit">Descargar Cupón</button>
+            </form>
+        </div>
+    </div>
 
     <script>
         // Loading screen
@@ -933,14 +1155,6 @@
                 }, index * 100);
             });
 
-            // Initialize FAQ
-            const faqItems = document.querySelectorAll('.faq-item');
-            faqItems.forEach(item => {
-                item.querySelector('.faq-question').addEventListener('click', () => {
-                    item.classList.toggle('active');
-                });
-            });
-
             // Initialize tabs
             const tabs = document.querySelectorAll('.tab');
             const tabContents = document.querySelectorAll('.tab-content');
@@ -963,12 +1177,6 @@
                 });
             });
 
-            // Initialize theme
-            const savedTheme = localStorage.getItem('theme');
-            if (savedTheme) {
-                document.body.classList.toggle('dark-theme', savedTheme === 'dark');
-            }
-
             // Back to top button
             const backToTopButton = document.getElementById('back-to-top');
             window.addEventListener('scroll', () => {
@@ -982,6 +1190,12 @@
             backToTopButton.addEventListener('click', () => {
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
+
+            // Set initial promo
+            setPromo();
+
+            // Initialize satisfied customers counter
+            initSatisfiedCustomersCounter();
         });
 
         // Update vigencia
@@ -1011,14 +1225,6 @@
             this.value = value.slice(0, 13);
         });
 
-        // Toggle theme
-        function toggleTheme() {
-            document.body.classList.toggle('dark-theme');
-            const theme = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
-            localStorage.setItem('theme', theme);
-            showNotification('Tema cambiado');
-        }
-
         // Show notification
         function showNotification(message) {
             const notification = document.getElementById('notification');
@@ -1029,34 +1235,7 @@
             }, 3000);
         }
 
-        // Chat widget
-        function toggleChatWidget() {
-            const chatWidget = document.getElementById('chat-widget');
-            chatWidget.style.display = chatWidget.style.display === 'none' ? 'flex' : 'none';
-        }
-
-        function sendMessage() {
-            const userMessage = document.getElementById('user-message');
-            const chatMessages = document.getElementById('chat-messages');
-            
-            if (userMessage.value.trim() !== '') {
-                const messageElement = document.createElement('p');
-                messageElement.textContent = `Tú: ${userMessage.value}`;
-                chatMessages.appendChild(messageElement);
-                
-                // Simulate assistant response
-                setTimeout(() => {
-                    const assistantMessage = document.createElement('p');
-                    assistantMessage.textContent = 'Asistente: Gracias por tu mensaje. ¿En qué más puedo ayudarte?';
-                    chatMessages.appendChild(assistantMessage);
-                    chatMessages.scrollTop = chatMessages.scrollHeight;
-                }, 1000);
-
-                userMessage.value = '';
-            }
-        }
-
-        // Copy and paste CUIT
+        // Copy CUIT
         function copyCUIT() {
             const cuitInput = document.getElementById('cuit-input');
             navigator.clipboard.writeText(cuitInput.value)
@@ -1068,6 +1247,7 @@
                 });
         }
 
+        // Paste CUIT
         function pasteCUIT() {
             navigator.clipboard.readText()
                 .then(text => {
@@ -1090,40 +1270,182 @@
             });
         });
 
-        // Print functionality
-        function printCompanyInfo() {
-            window.print();
+
+        // Promo functionality
+        const promos = [
+            { title: "¡50% de descuento en la revisión técnica!", description: "Por la compra de cualquier vehículo" },
+            { title: "¡Financiación sin intereses hasta en 12 cuotas!", description: "En modelos seleccionados" },
+            { title: "¡Regalo sorpresa!", description: "Por la compra de cualquier vehículo de nuestra línea premium" },
+            { title: "¡2x1 en cambio de aceite!", description: "Para todos nuestros clientes" }
+        ];
+
+        function getRandomPromo() {
+            return promos[Math.floor(Math.random() * promos.length)];
         }
 
-        // Service Worker for offline functionality
-        if ('serviceWorker' in navigator) {
-            window.addEventListener('load', () => {
-                navigator.serviceWorker.register('/service-worker.js')
-                    .then(registration => {
-                        console.log('Service Worker registrado con éxito:', registration.scope);
-                    })
-                    .catch(error => {
-                        console.log('Error al registrar el Service Worker:', error);
-                    });
-            });
-        }
+        function setCountdown() {
+            const now = new Date();
+            const end = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 4, 23, 59, 59);
+            const timeLeft = end - now;
 
-        // Chat suggestions
-        function selectSuggestion(button) {
-            document.getElementById('user-message').value = button.textContent;
-            sendMessage();
-        }
+            const days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
 
-        // Escape key to close chat
-        document.addEventListener('keydown', function(event) {
-            if (event.key === 'Escape') {
-                const chatWidget = document.getElementById('chat-widget');
-                if (chatWidget.style.display === 'flex') {
-                    toggleChatWidget();
-                }
+            document.getElementById('countdown').innerHTML = `Tiempo restante: ${days}d ${hours}h ${minutes}m ${seconds}s`;
+
+            if (timeLeft > 0) {
+                setTimeout(setCountdown, 1000);
             }
+        }
+
+        function setPromo() {
+            const promo = getRandomPromo();
+            document.getElementById('promoTitle').textContent = promo.title;
+            document.getElementById('promoDescription').textContent = promo.description;
+            setCountdown();
+        }
+
+        // Initialize promo and modal functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            setPromo();
+            document.getElementById('aprovecharpromobtn').addEventListener('click', openModal);
+        });
+
+        // Modal functionality
+        function openModal() {
+            document.getElementById('couponModal').style.display = 'block';
+        }
+
+        function closeModal() {
+            document.getElementById('couponModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            if (event.target == document.getElementById('couponModal')) {
+                closeModal();
+            }
+        }
+
+        // Handle form submission and PDF generation
+        document.getElementById('couponForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const loadingIndicator = document.getElementById('loadingIndicator');
+            loadingIndicator.style.display = 'flex';
+
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+
+            // Simulate PDF generation delay
+            setTimeout(() => {
+                // Generate PDF
+                const { jsPDF } = window.jspdf;
+                const doc = new jsPDF();
+
+                // Set background color
+                doc.setFillColor(240, 240, 240);
+                doc.rect(0, 0, 210, 297, 'F');
+
+                // Add logo placeholder
+                doc.setFontSize(12);
+                doc.text('MUNDOAUTO LOGO', 10, 20);
+
+                // Set fonts
+                doc.setFont("helvetica", "bold");
+
+                // Title
+                doc.setFontSize(24);
+                doc.setTextColor(41, 128, 185); // Blue color
+                doc.text('Cupón de Descuento', 105, 50, null, null, 'center');
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(16);
+                doc.setTextColor(0, 0, 0); // Black color
+
+                // Customer info
+                doc.text(`Nombre: ${name}`, 20, 70);
+                doc.text(`Email: ${email}`, 20, 80);
+                doc.text(`Teléfono: ${phone}`, 20, 90);
+
+                // Promo details
+                doc.setFont("helvetica", "bold");
+                doc.setFontSize(20);
+                doc.setTextColor(231, 76, 60); // Red color
+                doc.text(document.getElementById('promoTitle').textContent, 105, 120, null, null, 'center');
+
+                doc.setFont("helvetica", "normal");
+                doc.setFontSize(14);
+                doc.setTextColor(0, 0, 0); // Black color
+                doc.text(document.getElementById('promoDescription').textContent, 105, 130, null, null, 'center');
+
+                // Validity
+                doc.setFontSize(12);
+                doc.text('Válido hasta: ' + document.getElementById('countdown').textContent.split(': ')[1], 20, 150);
+
+                // Add a decorative element
+                doc.setDrawColor(41, 128, 185); // Blue color
+                doc.setLineWidth(2);
+                doc.line(20, 160, 190, 160);
+
+                // Terms and conditions
+                doc.setFontSize(10);
+                doc.text('Términos y condiciones:', 20, 170);
+                doc.setFontSize(8);
+                doc.text('Este cupón es válido para una sola compra. No puede combinarse con otras ofertas.', 20, 180);
+                doc.text('MUNDOAUTO MULTIMARCAS S.A. se reserva el derecho de modificar o cancelar esta promoción en cualquier momento.', 20, 185);
+
+                // Add QR code placeholder
+                doc.setFontSize(12);
+                doc.text('QR CODE', 150, 220);
+
+                // Footer
+                doc.setFontSize(10);
+                doc.text('MUNDOAUTO MULTIMARCAS S.A. - Siempre a tu servicio', 105, 280, null, null, 'center');
+
+                // Save the PDF
+                doc.save('Cupon_MUNDOAUTO.pdf');
+
+                // Hide loading indicator and close the modal
+                loadingIndicator.style.display = 'none';
+                closeModal();
+            }, 2000); // Simulated 2-second delay for PDF generation
+        });
+
+        // Initialize satisfied customers counter
+        function initSatisfiedCustomersCounter() {
+            const counter = document.getElementById('satisfied-customers');
+            const target = 10000; // Set your target number here
+            let current = 0;
+            const duration = 2000; // Duration of the animation in milliseconds
+            const step = timestamp => {
+                if (!start) start = timestamp;
+                const progress = Math.min((timestamp - start) / duration, 1);
+                current = Math.floor(progress * target);
+                counter.textContent = current.toLocaleString();
+                if (progress < 1) {
+                    window.requestAnimationFrame(step);
+                }
+            };
+            let start = null;
+            window.requestAnimationFrame(step);
+        }
+
+        // Theme toggle functionality
+        const themeToggle = document.createElement('button');
+        themeToggle.classList.add('toggle-theme');
+        themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        themeToggle.setAttribute('aria-label', 'Cambiar tema');
+        document.body.appendChild(themeToggle);
+
+        themeToggle.addEventListener('click', () => {
+            document.body.classList.toggle('dark-theme');
+            themeToggle.innerHTML = document.body.classList.contains('dark-theme') 
+                ? '<i class="fas fa-sun"></i>' 
+                : '<i class="fas fa-moon"></i>';
         });
     </script>
 </body>
 </html>
-
